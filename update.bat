@@ -1,19 +1,26 @@
 @echo off
+setlocal
 
-rem Step 1: Stash any local changes
-git stash
+:: Function to check if the current directory is a git repository
+git rev-parse --is-inside-work-tree >nul 2>&1
+if errorlevel 1 (
+    echo Error: The current directory is not a git repository.
+    exit /b 1
+)
 
-rem Step 2: Perform a hard reset to clear any local changes and bring the repository to HEAD
-git reset --hard HEAD
+echo Syncing the current directory with its checked-out repository...
 
-rem Step 3: Force pull from the remote repository
-git pull origin master --force
+:: Fetch the latest changes from the remote repository
+git fetch origin
 
-rem Step 4: Clean untracked files and directories
+:: Reset the current branch to the latest commit from the remote repository, discarding local changes
+for /f "tokens=*" %%i in ('git rev-parse --abbrev-ref HEAD') do set branch=%%i
+git reset --hard origin/%branch%
+
+:: Clean untracked files and directories
 git clean -fd
 
-rem Step 5: Apply the stashed changes back (if there were any)
-git stash apply
+echo Directory has been successfully synced and all changes have been discarded.
 
-rem Step 6: Clear the stash (if there were any changes applied)
-git stash clear
+endlocal
+exit /b 0
