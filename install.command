@@ -16,3 +16,7 @@ mv "$TEMP_DIR"/* "$TEMP_DIR"/.[!.]* . 2>/dev/null
 rm -rf "$TEMP_DIR"
 
 echo "Repository has been successfully cloned into the current directory."
+
+
+
+exit 0
