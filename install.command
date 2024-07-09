@@ -19,4 +19,4 @@ mv "$TEMP_DIR"/* "$TEMP_DIR"/.[!.]* . 2>/dev/null
 # Remove the temporary directory
 rm -rf "$TEMP_DIR"
 
-echo "Repository has been successfully cloned into the current directory."
+echo "Repository has been successfully cloned into the current directory!"
